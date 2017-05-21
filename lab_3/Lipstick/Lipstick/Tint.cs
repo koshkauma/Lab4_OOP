@@ -48,7 +48,6 @@ namespace lab_3.Classes.ForLips
             catch
             {
                 throw new Exception();
-               
             }
         }
     }

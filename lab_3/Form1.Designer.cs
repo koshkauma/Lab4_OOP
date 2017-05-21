@@ -52,7 +52,7 @@
             // 
             // buttonDelete
             // 
-            this.buttonDelete.Location = new System.Drawing.Point(621, 543);
+            this.buttonDelete.Location = new System.Drawing.Point(621, 582);
             this.buttonDelete.Name = "buttonDelete";
             this.buttonDelete.Size = new System.Drawing.Size(75, 23);
             this.buttonDelete.TabIndex = 1;
@@ -111,9 +111,9 @@
             // listBoxOfProducts
             // 
             this.listBoxOfProducts.FormattingEnabled = true;
-            this.listBoxOfProducts.Location = new System.Drawing.Point(621, 78);
+            this.listBoxOfProducts.Location = new System.Drawing.Point(621, 79);
             this.listBoxOfProducts.Name = "listBoxOfProducts";
-            this.listBoxOfProducts.Size = new System.Drawing.Size(168, 459);
+            this.listBoxOfProducts.Size = new System.Drawing.Size(168, 498);
             this.listBoxOfProducts.TabIndex = 8;
             this.listBoxOfProducts.SelectedIndexChanged += new System.EventHandler(this.listBoxOfProducts_SelectedIndexChanged);
             // 
@@ -135,7 +135,6 @@
             this.menuStripFile.Name = "menuStripFile";
             this.menuStripFile.Size = new System.Drawing.Size(844, 24);
             this.menuStripFile.TabIndex = 10;
-//            this.menuStripFile.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // работаСФайломToolStripMenuItem
             // 
@@ -172,6 +171,7 @@
             this.справкаToolStripMenuItem.Name = "справкаToolStripMenuItem";
             this.справкаToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
             this.справкаToolStripMenuItem.Text = "Справка";
+            this.справкаToolStripMenuItem.Click += new System.EventHandler(this.справкаToolStripMenuItem_Click);
             // 
             // saveFileDialog
             // 
@@ -184,7 +184,7 @@
             // 
             // buttonClearList
             // 
-            this.buttonClearList.Location = new System.Drawing.Point(714, 543);
+            this.buttonClearList.Location = new System.Drawing.Point(714, 582);
             this.buttonClearList.Name = "buttonClearList";
             this.buttonClearList.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.buttonClearList.Size = new System.Drawing.Size(75, 23);

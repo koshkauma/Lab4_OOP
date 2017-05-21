@@ -7,8 +7,8 @@
     <ProjectGuid>{4C25C5EB-8A47-4EE9-B7C4-3ECEE5117399}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tint</RootNamespace>
-    <AssemblyName>Tint</AssemblyName>
+    <RootNamespace>Lipstick</RootNamespace>
+    <AssemblyName>Lipstick</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

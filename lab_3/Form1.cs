@@ -196,28 +196,52 @@ namespace lab_3
 
             if (dlg.ShowDialog() != DialogResult.Cancel)
             {
-                Assembly assembly = Assembly.LoadFrom(dlg.FileName);
-                List<Type> pluginTypes = GetTypes<IPlugin>(assembly);
+                string path = dlg.FileName;
+                byte[] hash = GetHash(path);
+                DateTime date = File.GetCreationTime(path);
+                SignatureCreation signature = new SignatureCreation(hash, date);
 
-
-                if (pluginTypes.Count != 0)
+                if (signature.CheckValidation(path))
                 {
-                    int prevIndex = factoryFormEditor.FactoryList.Count();
-                    int counter = 0;
-                    for (int i = 0; i < pluginTypes.Count; i++)
+                  
+                   try
                     {
-                        IPlugin plugin = Activator.CreateInstance(pluginTypes[i]) as IPlugin;
-                        factoryFormEditor.AddProduct(plugin.GetFormLoader());
-                        counter++;
-                    }
+                        Assembly assembly = Assembly.LoadFrom(dlg.FileName);
+                        List<Type> pluginTypes = GetTypes<IPlugin>(assembly);
 
-                    for (int i = prevIndex; i < factoryFormEditor.FactoryList.Count; i++)
+                        if (pluginTypes.Count != 0)
+                        {
+                            int prevIndex = factoryFormEditor.FactoryList.Count();
+                            int counter = 0;
+                            for (int i = 0; i < pluginTypes.Count; i++)
+                            {
+                                IPlugin plugin = Activator.CreateInstance(pluginTypes[i]) as IPlugin;
+                                factoryFormEditor.AddProduct(plugin.GetFormLoader());
+                                counter++;
+                            }
+
+                            for (int i = prevIndex; i < factoryFormEditor.FactoryList.Count; i++)
+                            {
+                                comboBoxItems.Items.Add(factoryFormEditor.FactoryList[i].GetClassName());
+                            }
+                        }
+                    }
+                    catch(BadImageFormatException)
                     {
-                        comboBoxItems.Items.Add(factoryFormEditor.FactoryList[i].GetClassName());
+                        MessageBox.Show("Ошибка с библиотечным файлом.");
+                    }
+            
+                    catch (Exception exception)
+                    {
+                        MessageBox.Show(exception.Message);
                     }
                 }
-            }
+                else
+                {
+                    MessageBox.Show("Подлинность НЕ установлена.");
+                }
 
+            }
         }
 
 
@@ -245,12 +269,17 @@ namespace lab_3
                DateTime date = File.GetCreationTime(pathOfPlugin);
                SignatureCreation currentSignature = new SignatureCreation(hash, date);
                currentSignature.CreateSignature(pathOfPlugin);
-               MessageBox.Show("Подпись создана!");
+
+       
             }
 
 
         }
 
+        private void справкаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Для подписи плагина выберите dll-файл.");
+        }
     }
 
 }

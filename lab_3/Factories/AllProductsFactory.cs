@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using lab_3.Factories.NailFactories;
 using lab_3.Factories.EyesFactories;
 using lab_3.Factories.LipFactories;
 using lab_3.Factories.FaceFactories;
+using System.Windows.Forms;
 
 namespace lab_3.Factories
 {
@@ -36,9 +34,31 @@ namespace lab_3.Factories
             FactoryList.Add(new FoundationFactory());
         }
 
+        public bool CheckIfAlreadyInList(CosmeticFactory someFormLoader)
+        {
+            bool duplicateFound = false;
+            int i = 0;
+            while (!duplicateFound && i < factoryList.Count)
+            {
+                if (factoryList[i].GetType().ToString() == someFormLoader.GetType().ToString())
+                {
+                    duplicateFound = true;
+                }
+                i++;
+            }
+            return duplicateFound;
+        }
+
         public void AddProduct(CosmeticFactory someFormLoader)
         {
-            FactoryList.Add(someFormLoader);
+            if (!CheckIfAlreadyInList(someFormLoader))
+            {
+                FactoryList.Add(someFormLoader);
+            }
+            else
+            {
+                MessageBox.Show("Данный продукт уже существует!");
+            }
         }
         
     }

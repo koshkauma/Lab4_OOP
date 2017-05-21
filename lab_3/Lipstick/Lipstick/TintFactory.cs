@@ -26,8 +26,8 @@ namespace lab_3.Factories.LipFactories
             resultList.Add(GetLabel("tintDurability", "Стойкость(час)", size, new Point(leftCoord, 260), 11));
             resultList.Add(GetTextBox("tintDurability", size, new Point(leftCoord, 280), 12, TextBoxDigits_KeyPress));
 
-            resultList.Add(GetLabel("application", "Способ нанесения", size, new Point(leftCoord, 305), 11));
-            resultList.Add(GetTextBox("application", size, new Point(leftCoord, 325), 12, TextBoxString_KeyPress));
+            resultList.Add(GetLabel("application", "Способ нанесения", size, new Point(leftCoord, 310), 11));
+            resultList.Add(GetTextBox("application", size, new Point(leftCoord, 335), 12, TextBoxString_KeyPress));
 
             return resultList;
         }
