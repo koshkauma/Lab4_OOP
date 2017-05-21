@@ -1,2 +1,0 @@
-# Lab3_OOP
-Lab 3 OOP POIT BSUIR
