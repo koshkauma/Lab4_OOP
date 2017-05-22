@@ -18,20 +18,20 @@ namespace lab_3
     {
         const int listDisplayMemberIndex = 0;
         CosmeticListClass list = new CosmeticListClass();
-       
+
         public serializeForm()
         {
             InitializeComponent();
             foreach (CosmeticFactory factory in factoryFormEditor.FactoryList)
             {
-               comboBoxItems.Items.Add(factory.GetClassName());
+                comboBoxItems.Items.Add(factory.GetClassName());
             }
             comboBoxItems.SelectedIndex = 0;
             panelAdd.Controls.Clear();
             panelAdd.Controls.AddRange(factoryFormEditor.FactoryList[comboBoxItems.SelectedIndex].GetListControl(new Size(200, 15), 10).ToArray());
             panelAdd.Tag = factoryFormEditor.FactoryList[comboBoxItems.SelectedIndex].GetSomeCosmeticProduct(comboBoxItems.SelectedIndex);
             listBoxOfProducts.DataSource = list.CosmeticList;
-            listBoxOfProducts.DisplayMember = "ProductName";   
+            listBoxOfProducts.DisplayMember = "ProductName";
         }
 
 
@@ -73,8 +73,8 @@ namespace lab_3
             }
             else
             {
-             
-               MessageBox.Show("Заполните все поля!");
+
+                MessageBox.Show("Заполните все поля!");
             }
         }
 
@@ -107,7 +107,7 @@ namespace lab_3
             list.CosmeticList.ResetBindings();
         }
 
-      
+
         private void сериализоватьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (listBoxOfProducts.Items.Count == 0)
@@ -117,7 +117,7 @@ namespace lab_3
             else
             {
                 if (saveFileDialog.ShowDialog() != DialogResult.Cancel)
-                { 
+                {
                     list.SerializeItemsInList(saveFileDialog.FileName);
                 }
 
@@ -152,7 +152,7 @@ namespace lab_3
                     string message = exception.Message;
                     MessageBox.Show(message);
                 }
-            } 
+            }
         }
 
         private void openFileDialog_FileOk(object sender, CancelEventArgs e)
@@ -197,11 +197,11 @@ namespace lab_3
             if (dlg.ShowDialog() != DialogResult.Cancel)
             {
                 string pluginPath = dlg.FileName;
-
-                if (SignatureHelper.CheckIfValid(pluginPath))
+                try
                 {
-                   try
+                    if (SignatureHelper.CheckIfValid(pluginPath))
                     {
+
                         Assembly assembly = Assembly.LoadFrom(dlg.FileName);
                         List<Type> pluginTypes = GetTypes<IPlugin>(assembly);
 
@@ -222,23 +222,25 @@ namespace lab_3
                             }
                         }
                     }
-                    catch(BadImageFormatException)
-                    {
-                        MessageBox.Show("Ошибка с библиотечным файлом.");
-                    }
-            
-                    catch (Exception exception)
-                    {
-                        MessageBox.Show(exception.Message);
-                    }
                 }
-                else
+                catch (BadImageFormatException)
                 {
-                    MessageBox.Show("Подлинность НЕ установлена.");
+                    MessageBox.Show("Ошибка с библиотечным файлом.");
                 }
 
+                catch (Exception exception)
+                {
+                    MessageBox.Show(exception.Message);
+                }
+       
             }
+            else
+            {
+                MessageBox.Show("Подлинность НЕ установлена.");
+            }
+
         }
+   
 
 
 

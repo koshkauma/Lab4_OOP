@@ -7,6 +7,8 @@ namespace lab_3.PluginSignaturing
 {
     public static class SignatureHelper
     {
+        const int size = 128;
+
         public static byte[] GetHash(string nameOfInputFile)
         {
             FileStream stream = File.OpenRead(nameOfInputFile);
@@ -22,6 +24,8 @@ namespace lab_3.PluginSignaturing
             return dateTime;
         }
 
+        //array of bytes for signaturing 
+        //depends on time and file data
         public static byte[] GetArrayConcat(byte[] fileHash, byte[] dateTimeBytes)
         {
             byte[] arrayConcat = new byte[fileHash.Length + dateTimeBytes.Length];
@@ -40,12 +44,20 @@ namespace lab_3.PluginSignaturing
             return arrayConcat;
         }
 
-        public static byte[] GetSignature(string pathOfPlugin, RSAParameters key)
+
+        public static byte[] GetBytesForSignaturing(string pathOfPlugin)
         {
             byte[] fileHash = GetHash(pathOfPlugin);
             byte[] dateBytes = GetDate(pathOfPlugin);
 
-            byte[] bytesForSignature = GetArrayConcat(fileHash, dateBytes);
+            byte[] result = GetArrayConcat(fileHash, dateBytes);
+            return result;
+        }
+
+        //creating RSA signature
+        public static byte[] GetSignature(string pathOfPlugin, RSAParameters key)
+        {
+            byte[] bytesForSignature = GetBytesForSignaturing(pathOfPlugin);
             try
             {
                 RSACryptoServiceProvider RSAalg = new RSACryptoServiceProvider();
@@ -59,28 +71,41 @@ namespace lab_3.PluginSignaturing
 
         }
 
+        //save signature to file with ".signature" extension to home directory for choosed plugin
+
+            //USING
         public static void WriteSignatureToFile(byte[] signature, string path)
         {
-            //c using
-            FileStream file = File.Open(path, FileMode.Create);
-            StreamWriter outputFile = new StreamWriter(file);
-            for (int i = 0; i < signature.Length; i++)
+            try
             {
-                outputFile.WriteLine(signature[i]);
-            }
+                FileStream file = File.Open(path, FileMode.Create);
 
-            outputFile.Close();
-            outputFile.Dispose();
+                using (StreamWriter outputFile = new StreamWriter(file))
+                {
+                    for (int i = 0; i < signature.Length; i++)
+                    {
+                        outputFile.WriteLine(signature[i]);
+                    }
+                }
+            }
+            catch
+            {
+                throw new Exception("В процессе сохранения подписи возникли ошибки!");
+            }
+           
         }
 
+        //save public key to file with ".key" extension
+        //public key will be used to verify signature
 
-        public static void SavePublicKeyToFile(string path, RSACryptoServiceProvider algorithm) //save public key to verify signature
+        public static void SavePublicKeyToFile(string path, RSACryptoServiceProvider algorithm) 
         {
             string publicKeyPath = Path.GetDirectoryName(path) + "\\" + Path.GetFileNameWithoutExtension(path) + ".key";
+            
             FileStream file = File.Open(publicKeyPath, FileMode.Create);
 
             StreamWriter outputFile = new StreamWriter(file);
-            string publicKey = algorithm.ToXmlString(false);
+            string publicKey = algorithm.ToXmlString(false); 
             outputFile.Write(publicKey);
 
 
@@ -89,9 +114,9 @@ namespace lab_3.PluginSignaturing
 
         }
 
+        
         public static byte[] ReadSignatureFromFile(string pluginSignaturePath)
         {
-            const int size = 128;
             byte[] result = new byte[size];
 
             try
@@ -140,20 +165,30 @@ namespace lab_3.PluginSignaturing
             string pluginPublicKeyPath = Path.GetDirectoryName(pluginPath) + "\\" + Path.GetFileNameWithoutExtension(pluginPath) + ".key";
             if (File.Exists(pluginPublicKeyPath) && File.Exists(pluginSignaturePath))
             {
-                byte[] fileHash = GetHash(pluginPath);
-                byte[] dateBytes = GetDate(pluginPath);
+                try
+                {
 
-                byte[] originalData = GetArrayConcat(fileHash, dateBytes); //original data
+                    byte[] originalData = GetBytesForSignaturing(pluginPath); //original data
 
-                byte[] signedData = ReadSignatureFromFile(pluginSignaturePath); //signed data
+                    byte[] signedData = ReadSignatureFromFile(pluginSignaturePath); //signed data
 
-                string keyString = ReadPublicKey(pluginPublicKeyPath);
+                    string keyString = ReadPublicKey(pluginPublicKeyPath); //public key to verify signature
 
-                RSACryptoServiceProvider RSAalg = new RSACryptoServiceProvider();
-                RSAalg.FromXmlString(keyString);
+                    RSACryptoServiceProvider RSAalg = new RSACryptoServiceProvider();
 
-                return RSAalg.VerifyData(originalData, new SHA1CryptoServiceProvider(), signedData);
-            }
+                    RSAalg.FromXmlString(keyString);
+
+                    return RSAalg.VerifyData(originalData, new SHA1CryptoServiceProvider(), signedData);
+                }
+                catch(System.FormatException)
+                {
+                    throw new Exception("Целостность публичного ключа нарушена!");
+                }
+                catch(Exception)
+                {
+                    throw new Exception("В процессе проверки подлинности произошла ошибка!");
+                }
+            } 
             else
             {
                 return false;
