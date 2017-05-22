@@ -79,7 +79,7 @@
     </Compile>
     <Compile Include="Helpers\Hierarchy.cs" />
     <Compile Include="Helpers\IPlugin.cs" />
-    <Compile Include="PluginSignaturing\SignatureCreation.cs" />
+    <Compile Include="PluginSignaturing\SignatureHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

@@ -196,14 +196,10 @@ namespace lab_3
 
             if (dlg.ShowDialog() != DialogResult.Cancel)
             {
-                string path = dlg.FileName;
-                byte[] hash = GetHash(path);
-                DateTime date = File.GetCreationTime(path);
-                SignatureCreation signature = new SignatureCreation(hash, date);
+                string pluginPath = dlg.FileName;
 
-                if (signature.CheckValidation(path))
+                if (SignatureHelper.CheckIfValid(pluginPath))
                 {
-                  
                    try
                     {
                         Assembly assembly = Assembly.LoadFrom(dlg.FileName);
@@ -245,42 +241,39 @@ namespace lab_3
         }
 
 
-        private byte[] GetHash(string nameOfInputFile)
-        {
-            FileStream stream = File.OpenRead(nameOfInputFile);
-            SHA256Managed shaM = new SHA256Managed();
-            byte[] hash = shaM.ComputeHash(stream);
-            return hash;
-        }
 
-        private void buttonSignature_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dlg = new OpenFileDialog()
-            {
-                Filter = "DLL files | *.dll"
-            };
-
-
-
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-               string pathOfPlugin = dlg.FileName;
-               byte[] hash = GetHash(pathOfPlugin);
-               DateTime date = File.GetCreationTime(pathOfPlugin);
-               SignatureCreation currentSignature = new SignatureCreation(hash, date);
-               currentSignature.CreateSignature(pathOfPlugin);
-
-       
-            }
-
-
-        }
+     
 
         private void справкаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Для подписи плагина выберите dll-файл.");
         }
+
+     
+
+        private void buttonSignPlugin_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog()
+            {
+                Filter = "DLL files | *.dll"
+            };
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                RSACryptoServiceProvider RSAalg = new RSACryptoServiceProvider();
+                RSAParameters key = RSAalg.ExportParameters(true);
+
+                byte[] signedData = SignatureHelper.GetSignature(dlg.FileName, key);
+
+                SaveFileDialog saveDlg = new SaveFileDialog();
+                string signatureFilePath = Path.GetDirectoryName(dlg.FileName) + "\\" + Path.GetFileNameWithoutExtension(dlg.FileName) + ".signature";
+                SignatureHelper.WriteSignatureToFile(signedData, signatureFilePath);
+                SignatureHelper.SavePublicKeyToFile(dlg.FileName, RSAalg);
+            }
+        }
+
+       
+    }
     }
 
-}
+
 

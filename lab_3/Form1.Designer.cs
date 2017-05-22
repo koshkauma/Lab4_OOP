@@ -47,6 +47,8 @@
             this.buttonClearList = new System.Windows.Forms.Button();
             this.buttonLoadPlugin = new System.Windows.Forms.Button();
             this.buttonSignature = new System.Windows.Forms.Button();
+            this.buttonSignPlugin = new System.Windows.Forms.Button();
+            this.buttonLoadCheck = new System.Windows.Forms.Button();
             this.menuStripFile.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -205,19 +207,35 @@
             // 
             // buttonSignature
             // 
-            this.buttonSignature.Location = new System.Drawing.Point(453, 32);
+            this.buttonSignature.Location = new System.Drawing.Point(0, 0);
             this.buttonSignature.Name = "buttonSignature";
-            this.buttonSignature.Size = new System.Drawing.Size(131, 23);
-            this.buttonSignature.TabIndex = 13;
-            this.buttonSignature.Text = "Подписать плагин";
-            this.buttonSignature.UseVisualStyleBackColor = true;
-            this.buttonSignature.Click += new System.EventHandler(this.buttonSignature_Click);
+            this.buttonSignature.Size = new System.Drawing.Size(75, 23);
+            this.buttonSignature.TabIndex = 16;
+            // 
+            // buttonSignPlugin
+            // 
+            this.buttonSignPlugin.Location = new System.Drawing.Point(463, 32);
+            this.buttonSignPlugin.Name = "buttonSignPlugin";
+            this.buttonSignPlugin.Size = new System.Drawing.Size(168, 23);
+            this.buttonSignPlugin.TabIndex = 14;
+            this.buttonSignPlugin.Text = "Подписать плагин";
+            this.buttonSignPlugin.UseVisualStyleBackColor = true;
+            this.buttonSignPlugin.Click += new System.EventHandler(this.buttonSignPlugin_Click);
+            // 
+            // buttonLoadCheck
+            // 
+            this.buttonLoadCheck.Location = new System.Drawing.Point(0, 0);
+            this.buttonLoadCheck.Name = "buttonLoadCheck";
+            this.buttonLoadCheck.Size = new System.Drawing.Size(75, 23);
+            this.buttonLoadCheck.TabIndex = 0;
             // 
             // serializeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(844, 638);
+            this.Controls.Add(this.buttonLoadCheck);
+            this.Controls.Add(this.buttonSignPlugin);
             this.Controls.Add(this.buttonSignature);
             this.Controls.Add(this.buttonLoadPlugin);
             this.Controls.Add(this.buttonClearList);
@@ -261,6 +279,8 @@
         private System.Windows.Forms.Button buttonClearList;
         private System.Windows.Forms.Button buttonLoadPlugin;
         private System.Windows.Forms.Button buttonSignature;
+        private System.Windows.Forms.Button buttonSignPlugin;
+        private System.Windows.Forms.Button buttonLoadCheck;
     }
 }
 
