@@ -73,7 +73,7 @@ namespace lab_3.PluginSignaturing
 
         //save signature to file with ".signature" extension to home directory for choosed plugin
 
-            //USING
+          
         public static void WriteSignatureToFile(byte[] signature, string path)
         {
             try

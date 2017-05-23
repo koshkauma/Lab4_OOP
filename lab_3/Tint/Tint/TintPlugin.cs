@@ -13,11 +13,6 @@ namespace lab_3.CosmeticFactories
     {
         Tint someTint = new Tint();
 
-        public string typeOfProduct = "Tint";
-        public string parentType = "LipProduct";
-
-
-
         public CosmeticFactory GetFormLoader()
         {
             return new TintFactory();

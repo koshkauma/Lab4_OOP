@@ -44,6 +44,7 @@ namespace lab_3.Classes.ForLips
                 data.RemoveAt(currentItemList);
                 ApplicationOfProduct = data[currentItemList];
                 data.RemoveAt(currentItemList);
+
             }
             catch
             {

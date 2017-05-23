@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using lab_3.Factories;
@@ -37,15 +36,6 @@ namespace lab_3
 
         private static AllProductsFactory factoryFormEditor = new AllProductsFactory();
 
-        private void serializeForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panelAdd_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
 
         private void comboBoxItems_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -108,7 +98,7 @@ namespace lab_3
         }
 
 
-        private void сериализоватьToolStripMenuItem_Click(object sender, EventArgs e)
+        private void serializeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (listBoxOfProducts.Items.Count == 0)
             {
@@ -139,7 +129,7 @@ namespace lab_3
         }
 
 
-        private void десToolStripMenuItem_Click(object sender, EventArgs e)
+        private void deserializeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (openFileDialog.ShowDialog() != DialogResult.Cancel)
             {
@@ -155,10 +145,6 @@ namespace lab_3
             }
         }
 
-        private void openFileDialog_FileOk(object sender, CancelEventArgs e)
-        {
-
-        }
 
         private void buttonClearList_Click(object sender, EventArgs e)
         {
@@ -170,7 +156,7 @@ namespace lab_3
             }
         }
 
-        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
@@ -187,71 +173,75 @@ namespace lab_3
 
         }
 
+
+        private void ProccessLoadingOfPlugins(string pluginPath)
+        {           
+            Assembly assembly = Assembly.LoadFrom(pluginPath);
+            List<Type> pluginTypes = GetTypes<IPlugin>(assembly);
+
+            if (pluginTypes.Count != 0)
+            {
+                int prevIndex = factoryFormEditor.FactoryList.Count();
+                for (int i = 0; i < pluginTypes.Count; i++)
+                {
+                    IPlugin plugin = Activator.CreateInstance(pluginTypes[i]) as IPlugin;
+                    factoryFormEditor.AddProduct(plugin.GetFormLoader());
+                }
+
+                for (int i = prevIndex; i < factoryFormEditor.FactoryList.Count; i++)
+                {
+                    comboBoxItems.Items.Add(factoryFormEditor.FactoryList[i].GetClassName());
+                }
+            }
+            
+
+        }
+
         private void buttonLoadPlugin_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dlg = new OpenFileDialog()
-            {
-                Filter = "DLL files | *.dll"
-            };
-
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Multiselect = true;
+            dlg.Filter = "DLL files | *.dll";
             if (dlg.ShowDialog() != DialogResult.Cancel)
             {
-                string pluginPath = dlg.FileName;
-                try
+                foreach (string pluginPath in dlg.FileNames)
                 {
-                    if (SignatureHelper.CheckIfValid(pluginPath))
+                    string pluginName = Path.GetFileName(pluginPath);
+                    try
                     {
-
-                        Assembly assembly = Assembly.LoadFrom(dlg.FileName);
-                        List<Type> pluginTypes = GetTypes<IPlugin>(assembly);
-
-                        if (pluginTypes.Count != 0)
+                        if (SignatureHelper.CheckIfValid(pluginPath))
                         {
-                            int prevIndex = factoryFormEditor.FactoryList.Count();
-                            int counter = 0;
-                            for (int i = 0; i < pluginTypes.Count; i++)
-                            {
-                                IPlugin plugin = Activator.CreateInstance(pluginTypes[i]) as IPlugin;
-                                factoryFormEditor.AddProduct(plugin.GetFormLoader());
-                                counter++;
-                            }
-
-                            for (int i = prevIndex; i < factoryFormEditor.FactoryList.Count; i++)
-                            {
-                                comboBoxItems.Items.Add(factoryFormEditor.FactoryList[i].GetClassName());
-                            }
+                            ProccessLoadingOfPlugins(pluginPath);
                         }
-                    }
-                }
-                catch (BadImageFormatException)
-                {
-                    MessageBox.Show("Ошибка с библиотечным файлом.");
-                }
+                        else
+                        {
+                            MessageBox.Show(pluginName + " - " + "Подлинность плагина не установлена!");
+                        }
 
-                catch (Exception exception)
-                {
-                    MessageBox.Show(exception.Message);
+                    }
+                    catch (BadImageFormatException)
+                    {
+                        MessageBox.Show(pluginName + " - " + "Ошибка загрузки dll");
+                    }
+                   
+                    catch (Exception exception)
+                    {
+                        MessageBox.Show(pluginName + " - " + exception.Message);
+                    }
+
                 }
-       
             }
-            else
-            {
-                MessageBox.Show("Подлинность НЕ установлена.");
-            }
+        
 
         }
    
 
 
-
-     
-
         private void справкаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Для подписи плагина выберите dll-файл.");
-        }
+        } 
 
-     
 
         private void buttonSignPlugin_Click(object sender, EventArgs e)
         {

@@ -77,7 +77,6 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\Hierarchy.cs" />
     <Compile Include="Helpers\IPlugin.cs" />
     <Compile Include="PluginSignaturing\SignatureHelper.cs" />
     <Compile Include="Program.cs" />

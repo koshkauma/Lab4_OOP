@@ -22,7 +22,7 @@ namespace lab_3.Factories.LipFactories
         public override List<Control> GetListControl(Size size, int leftCoord)
         {
             List<Control> resultList = base.GetListControl(size, leftCoord);
-
+            
             resultList.Add(GetLabel("tintDurability", "Стойкость(час)", size, new Point(leftCoord, 260), 11));
             resultList.Add(GetTextBox("tintDurability", size, new Point(leftCoord, 280), 12, TextBoxDigits_KeyPress));
 

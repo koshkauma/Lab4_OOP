@@ -57,7 +57,7 @@ namespace lab_3.Factories
             }
             else
             {
-                MessageBox.Show("Данный продукт уже существует!");
+                MessageBox.Show(someFormLoader.GetClassName() + " - " + "Данный продукт уже существует!");
             }
         }
         

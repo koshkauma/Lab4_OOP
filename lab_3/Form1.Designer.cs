@@ -41,7 +41,6 @@
             this.сериализоватьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.десToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.справкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.buttonClearList = new System.Windows.Forms.Button();
@@ -68,7 +67,6 @@
             this.panelAdd.Name = "panelAdd";
             this.panelAdd.Size = new System.Drawing.Size(262, 497);
             this.panelAdd.TabIndex = 3;
-            this.panelAdd.Paint += new System.Windows.Forms.PaintEventHandler(this.panelAdd_Paint);
             // 
             // buttonAdd
             // 
@@ -129,8 +127,7 @@
             // 
             this.menuStripFile.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.работаСФайломToolStripMenuItem,
-            this.выходToolStripMenuItem,
-            this.справкаToolStripMenuItem});
+            this.выходToolStripMenuItem});
             this.menuStripFile.Location = new System.Drawing.Point(0, 0);
             this.menuStripFile.Name = "menuStripFile";
             this.menuStripFile.Size = new System.Drawing.Size(844, 24);
@@ -141,37 +138,30 @@
             this.работаСФайломToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.сериализоватьToolStripMenuItem,
             this.десToolStripMenuItem});
-            this.работаСФайломToolStripMenuItem.Name = "работаСФайломToolStripMenuItem";
+            this.работаСФайломToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.работаСФайломToolStripMenuItem.Size = new System.Drawing.Size(110, 20);
             this.работаСФайломToolStripMenuItem.Text = "Работа с файлом";
             // 
             // сериализоватьToolStripMenuItem
             // 
-            this.сериализоватьToolStripMenuItem.Name = "сериализоватьToolStripMenuItem";
+            this.сериализоватьToolStripMenuItem.Name = "serializeToolStripMenuItem";
             this.сериализоватьToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.сериализоватьToolStripMenuItem.Text = "Сериализовать";
-            this.сериализоватьToolStripMenuItem.Click += new System.EventHandler(this.сериализоватьToolStripMenuItem_Click);
+            this.сериализоватьToolStripMenuItem.Click += new System.EventHandler(this.serializeToolStripMenuItem_Click);
             // 
             // десToolStripMenuItem
             // 
-            this.десToolStripMenuItem.Name = "десToolStripMenuItem";
+            this.десToolStripMenuItem.Name = "deserializeToolStripMenuItem";
             this.десToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.десToolStripMenuItem.Text = "Десериализовать";
-            this.десToolStripMenuItem.Click += new System.EventHandler(this.десToolStripMenuItem_Click);
+            this.десToolStripMenuItem.Click += new System.EventHandler(this.deserializeToolStripMenuItem_Click);
             // 
             // выходToolStripMenuItem
             // 
-            this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
+            this.выходToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.выходToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
             this.выходToolStripMenuItem.Text = "Выход";
-            this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
-            // 
-            // справкаToolStripMenuItem
-            // 
-            this.справкаToolStripMenuItem.Name = "справкаToolStripMenuItem";
-            this.справкаToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
-            this.справкаToolStripMenuItem.Text = "Справка";
-            this.справкаToolStripMenuItem.Click += new System.EventHandler(this.справкаToolStripMenuItem_Click);
+            this.выходToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // saveFileDialog
             // 
@@ -180,7 +170,6 @@
             // openFileDialog
             // 
             this.openFileDialog.Filter = "Text files(*.txt)|*.txt";
-            this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
             // 
             // buttonClearList
             // 
@@ -233,7 +222,6 @@
             this.MainMenuStrip = this.menuStripFile;
             this.Name = "serializeForm";
             this.Text = "Лаб. работа №3";
-            this.Load += new System.EventHandler(this.serializeForm_Load);
             this.menuStripFile.ResumeLayout(false);
             this.menuStripFile.PerformLayout();
             this.ResumeLayout(false);
@@ -255,7 +243,6 @@
         private System.Windows.Forms.ToolStripMenuItem сериализоватьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem десToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem справкаToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.Button buttonClearList;
