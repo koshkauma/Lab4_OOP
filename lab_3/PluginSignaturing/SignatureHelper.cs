@@ -74,11 +74,12 @@ namespace lab_3.PluginSignaturing
         //save signature to file with ".signature" extension to home directory for choosed plugin
 
           
-        public static void WriteSignatureToFile(byte[] signature, string path)
+        public static void WriteSignatureToFile(byte[] signature, string pluginPath)
         {
             try
             {
-                FileStream file = File.Open(path, FileMode.Create);
+                string signatureFilePath = Path.GetDirectoryName(pluginPath) + "\\" + Path.GetFileNameWithoutExtension(pluginPath) + ".signature";
+                FileStream file = File.Open(signatureFilePath, FileMode.Create);
 
                 using (StreamWriter outputFile = new StreamWriter(file))
                 {
@@ -195,7 +196,17 @@ namespace lab_3.PluginSignaturing
             }
         }
 
+        public static void SaveSignature(string pluginName)
+        {
 
+            RSACryptoServiceProvider RSAalg = new RSACryptoServiceProvider();
+            RSAParameters key = RSAalg.ExportParameters(true);
+
+            byte[] signedData = GetSignature(pluginName, key);
+
+            WriteSignatureToFile(signedData, pluginName);
+            SavePublicKeyToFile(pluginName, RSAalg);
+        }
 
 
     }

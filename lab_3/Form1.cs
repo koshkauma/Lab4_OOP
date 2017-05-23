@@ -231,16 +231,9 @@ namespace lab_3
 
                 }
             }
-        
-
+       
         }
    
-
-
-        private void справкаToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Для подписи плагина выберите dll-файл.");
-        } 
 
 
         private void buttonSignPlugin_Click(object sender, EventArgs e)
@@ -251,15 +244,7 @@ namespace lab_3
             };
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                RSACryptoServiceProvider RSAalg = new RSACryptoServiceProvider();
-                RSAParameters key = RSAalg.ExportParameters(true);
-
-                byte[] signedData = SignatureHelper.GetSignature(dlg.FileName, key);
-
-                SaveFileDialog saveDlg = new SaveFileDialog();
-                string signatureFilePath = Path.GetDirectoryName(dlg.FileName) + "\\" + Path.GetFileNameWithoutExtension(dlg.FileName) + ".signature";
-                SignatureHelper.WriteSignatureToFile(signedData, signatureFilePath);
-                SignatureHelper.SavePublicKeyToFile(dlg.FileName, RSAalg);
+                SignatureHelper.SaveSignature(dlg.FileName);
             }
         }
 
