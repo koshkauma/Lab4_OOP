@@ -23,7 +23,7 @@ namespace lab_3.Factories.LipFactories
         {
             List<Control> resultList = base.GetListControl(size, leftCoord);
             
-            resultList.Add(GetLabel("tintDurability", "Стойкость(час)", size, new Point(leftCoord, 260), 11));
+            resultList.Add(GetLabel("tintDurability", "Стойкость (в час)", size, new Point(leftCoord, 260), 11));
             resultList.Add(GetTextBox("tintDurability", size, new Point(leftCoord, 280), 12, TextBoxDigits_KeyPress));
 
             resultList.Add(GetLabel("application", "Способ нанесения", size, new Point(leftCoord, 305), 11));

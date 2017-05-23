@@ -14,7 +14,7 @@ namespace lab_3.CosmeticFactories
         Tint someTint = new Tint();
 
         public CosmeticFactory GetFormLoader()
-        {
+        { 
             return new TintFactory();
         }
 

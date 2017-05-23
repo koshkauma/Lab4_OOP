@@ -184,6 +184,7 @@ namespace lab_3
                 int prevIndex = factoryFormEditor.FactoryList.Count();
                 for (int i = 0; i < pluginTypes.Count; i++)
                 {
+                    
                     IPlugin plugin = Activator.CreateInstance(pluginTypes[i]) as IPlugin;
                     factoryFormEditor.AddProduct(plugin.GetFormLoader());
                 }
@@ -206,10 +207,11 @@ namespace lab_3
             {
                 foreach (string pluginPath in dlg.FileNames)
                 {
+                    Signature signatureToCheck = new Signature(pluginPath);
                     string pluginName = Path.GetFileName(pluginPath);
                     try
                     {
-                        if (SignatureHelper.CheckIfValid(pluginPath))
+                        if (signatureToCheck.CheckIfValid())
                         {
                             ProccessLoadingOfPlugins(pluginPath);
                         }
@@ -244,7 +246,9 @@ namespace lab_3
             };
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                SignatureHelper.SaveSignature(dlg.FileName);
+                Signature signatureToCreate = new Signature(dlg.FileName);
+                signatureToCreate.SaveSignature();
+                //SignatureHelper.SaveSignature(dlg.FileName);
             }
         }
 

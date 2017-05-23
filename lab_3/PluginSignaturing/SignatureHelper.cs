@@ -160,54 +160,5 @@ namespace lab_3.PluginSignaturing
 
 
 
-        public static bool CheckIfValid(string pluginPath)
-        {
-            string pluginSignaturePath = Path.GetDirectoryName(pluginPath) + "\\" + Path.GetFileNameWithoutExtension(pluginPath) + ".signature";
-            string pluginPublicKeyPath = Path.GetDirectoryName(pluginPath) + "\\" + Path.GetFileNameWithoutExtension(pluginPath) + ".key";
-            if (File.Exists(pluginPublicKeyPath) && File.Exists(pluginSignaturePath))
-            {
-                try
-                {
-
-                    byte[] originalData = GetBytesForSignaturing(pluginPath); //original data
-
-                    byte[] signedData = ReadSignatureFromFile(pluginSignaturePath); //signed data
-
-                    string keyString = ReadPublicKey(pluginPublicKeyPath); //public key to verify signature
-
-                    RSACryptoServiceProvider RSAalg = new RSACryptoServiceProvider();
-
-                    RSAalg.FromXmlString(keyString);
-
-                    return RSAalg.VerifyData(originalData, new SHA1CryptoServiceProvider(), signedData);
-                }
-                catch(System.FormatException)
-                {
-                    throw new Exception("Целостность публичного ключа нарушена!");
-                }
-                catch(Exception)
-                {
-                    throw new Exception("В процессе проверки подлинности произошла ошибка!");
-                }
-            } 
-            else
-            {
-                return false;
-            }
-        }
-
-        public static void SaveSignature(string pluginName)
-        {
-
-            RSACryptoServiceProvider RSAalg = new RSACryptoServiceProvider();
-            RSAParameters key = RSAalg.ExportParameters(true);
-
-            byte[] signedData = GetSignature(pluginName, key);
-
-            WriteSignatureToFile(signedData, pluginName);
-            SavePublicKeyToFile(pluginName, RSAalg);
-        }
-
-
     }
 }
