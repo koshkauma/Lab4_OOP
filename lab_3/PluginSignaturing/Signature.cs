@@ -9,7 +9,7 @@ namespace lab_3.PluginSignaturing
 {
     public class Signature
     {
-        public string PathForFile {get; set;}
+        private string PathForFile {get; set;}
 
         public Signature(string pathToFile)
         {

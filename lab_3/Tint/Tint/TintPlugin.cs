@@ -11,7 +11,6 @@ namespace lab_3.CosmeticFactories
 {
     public class TintPlugin: IPlugin
     {
-        Tint someTint = new Tint();
 
         public CosmeticFactory GetFormLoader()
         { 

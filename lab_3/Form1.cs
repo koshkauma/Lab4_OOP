@@ -163,41 +163,6 @@ namespace lab_3
 
 
 
-        public static List<Type> GetTypes<T>(Assembly assembly)
-        {
-            if (!typeof(T).IsInterface)
-            {
-                return null;
-            }
-            return assembly.GetTypes().Where(x => x.GetInterface(typeof(T).Name) != null).ToList();
-
-        }
-
-
-        private void ProccessLoadingOfPlugins(string pluginPath)
-        {           
-            Assembly assembly = Assembly.LoadFrom(pluginPath);
-            List<Type> pluginTypes = GetTypes<IPlugin>(assembly);
-
-            if (pluginTypes.Count != 0)
-            {
-                int prevIndex = factoryFormEditor.FactoryList.Count();
-                for (int i = 0; i < pluginTypes.Count; i++)
-                {
-                    
-                    IPlugin plugin = Activator.CreateInstance(pluginTypes[i]) as IPlugin;
-                    factoryFormEditor.AddProduct(plugin.GetFormLoader());
-                }
-
-                for (int i = prevIndex; i < factoryFormEditor.FactoryList.Count; i++)
-                {
-                    comboBoxItems.Items.Add(factoryFormEditor.FactoryList[i].GetClassName());
-                }
-            }
-            
-
-        }
-
         private void buttonLoadPlugin_Click(object sender, EventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
@@ -213,7 +178,7 @@ namespace lab_3
                     {
                         if (signatureToCheck.CheckIfValid())
                         {
-                            ProccessLoadingOfPlugins(pluginPath);
+                            LoadingOfPlugin.ProccessLoadingOfPlugins(pluginPath, factoryFormEditor, comboBoxItems);
                         }
                         else
                         {
@@ -248,7 +213,6 @@ namespace lab_3
             {
                 Signature signatureToCreate = new Signature(dlg.FileName);
                 signatureToCreate.SaveSignature();
-                //SignatureHelper.SaveSignature(dlg.FileName);
             }
         }
 

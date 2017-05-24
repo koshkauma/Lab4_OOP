@@ -78,6 +78,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\IPlugin.cs" />
+    <Compile Include="Helpers\LoadingOfPlugin.cs" />
     <Compile Include="PluginSignaturing\Signature.cs" />
     <Compile Include="PluginSignaturing\SignatureHelper.cs" />
     <Compile Include="Program.cs" />
